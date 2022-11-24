@@ -9,8 +9,12 @@ const savePDF = async(submissionID,url) => {
     const savePath = './files/' + submissionID + '.pdf'
     const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
-    await page.goto(url, {waitUntil: 'networkidle0'});
-    const pageTitle = await page.title();
+    await page.goto(url, {waitUntil: 'networkidle0'}).catch(err => {
+        console.log(err)
+    });
+    const pageTitle = await page.title().catch(err => {
+        console.log(err)
+    });
     const pdf = await page.pdf({ 
         path: savePath,
         format: 'A4'
